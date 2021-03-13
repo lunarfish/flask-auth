@@ -11,7 +11,7 @@ setuptools.setup(
     description="Authentication decorators and helpers for flask apps",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/alphagov/cybersecuritytools",
+    url="https://github.com/lunarfish/flask-auth",
     packages=setuptools.find_packages(),
     package_data={
         "flaskauth": ["templates/*"],
