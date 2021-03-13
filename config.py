@@ -1,14 +1,14 @@
 import os
 
 import boto3
-from botocore.exceptions import ClientError, NoCredentialsError  # type: ignore
+from botocore.exceptions import ClientError, NoCredentialsError
 from flask import Flask
-from jsonlogger import LOG  # type: ignore
+from jsonlogger import LOG
 
 CONFIG = {}
 
 
-def load_ssm_parameters(app: Flask) -> bool:
+def load_ssm_parameters(app):
     ssm_parameters_retrieved = True
     try:
 

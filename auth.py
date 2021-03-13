@@ -15,20 +15,17 @@ from flask import (
     session,
 )
 from flask.wrappers import Response as FlaskWrapperResponse
-from jsonlogger import LOG  # type: ignore
+from jsonlogger import LOG
 from werkzeug.wrappers import Response as WerkzeugResponse
 
 from .alb import alb_get_user_info
 
-Function = Callable[..., Any]
-FlaskResponse = Union[Response, WerkzeugResponse, FlaskWrapperResponse]
-
 STATIC_SITE_ROOT = None
 ACCESS_CONTROLS = None
-DEFAULT_ACCESS: Dict[str, Any] = {"paths": {}}
+DEFAULT_ACCESS = {"paths": {}}
 
 
-def set_static_site_root(root: str) -> None:
+def set_static_site_root(root):
     global STATIC_SITE_ROOT
     if root[0] != "/":
         here = os.path.dirname(os.path.abspath(__file__))
@@ -45,20 +42,20 @@ class AccessDeniedException(Exception):
         request_path -- the denied path requested by the user
     """
 
-    def __init__(self, message: str = "Access denied", request_path: str = "") -> None:
+    def __init__(self, message="Access denied", request_path=""):
         self.message = message
         self.request_path = request_path
         super(Exception, self).__init__(self.message)
 
 
-def add_credentials_to_session(app: Flask) -> Function:
+def add_credentials_to_session(app):
     """
     Retrieve the login credentials from the ALB
     """
 
-    def decorator(route_function: Function) -> Function:
+    def decorator(route_function):
         @wraps(route_function)
-        def decorated_function(*args: Any, **kwargs: Any) -> Any:
+        def decorated_function(*args, **kwargs):
             app.logger.debug("Add credentials to session")
             if app.config.get("ENV", "debug") == "production":
                 try:
@@ -85,7 +82,7 @@ def add_credentials_to_session(app: Flask) -> Function:
     return decorator
 
 
-def get_access_file() -> str:
+def get_access_file():
     """
     The static site should contain this JSON file
     alongside the root of the content.
@@ -94,12 +91,12 @@ def get_access_file() -> str:
     return f"{STATIC_SITE_ROOT}access-control.json"
 
 
-def set_access_controls(controls: Dict[str, Any]) -> None:
+def set_access_controls(controls):
     global ACCESS_CONTROLS
     ACCESS_CONTROLS = controls
 
 
-def get_access_controls() -> Dict[str, Any]:
+def get_access_controls():
     """
     Parse the access control JSON file
 
@@ -123,9 +120,7 @@ def get_access_controls() -> Dict[str, Any]:
     return ACCESS_CONTROLS
 
 
-def check_role_requirement(
-    requirement: Dict[str, Union[str, List[str]]], roles: List[str]
-) -> bool:
+def check_role_requirement(requirement, roles):
     """
     Check user roles meets requirement
 
@@ -149,7 +144,7 @@ def check_role_requirement(
     return allow
 
 
-def check_access(path: str, user: Optional[Dict[str, Union[str, List[str]]]]) -> None:
+def check_access(path, user):
     """
     Check request against defined access restrictions
 
@@ -201,15 +196,15 @@ def check_access(path: str, user: Optional[Dict[str, Union[str, List[str]]]]) ->
         raise AccessDeniedException(request_path=path, message=access_message)
 
 
-def authorize_or_redirect(app: Flask, denied_route: str = "/access-denied") -> Function:
+def authorize_or_redirect(app, denied_route="/access-denied"):
     """
     Decorator for flask routes to authorize content
 
     """
 
-    def decorator(route_function: Function) -> Function:
+    def decorator(route_function):
         @wraps(route_function)
-        def decorated_function(*args: Any, **kwargs: Any) -> Any:
+        def decorated_function(*args, **kwargs):
             path = request.path
             app.logger.debug(f"URL: {path}")
 
@@ -228,7 +223,7 @@ def authorize_or_redirect(app: Flask, denied_route: str = "/access-denied") -> F
     return decorator
 
 
-def authorize_or_errorhandler(app: Flask) -> Function:
+def authorize_or_errorhandler(app):
     """
     Decorator for flask routes to authorize content
 
@@ -242,9 +237,9 @@ def authorize_or_errorhandler(app: Flask) -> Function:
         return render_template("error.html", error=error), 403
     """
 
-    def decorator(route_function: Function) -> Function:
+    def decorator(route_function):
         @wraps(route_function)
-        def decorated_function(*args: Any, **kwargs: Any) -> Any:
+        def decorated_function(*args, **kwargs):
             path = request.path
             app.logger.debug(f"URL: {path}")
 
@@ -257,16 +252,16 @@ def authorize_or_errorhandler(app: Flask) -> Function:
     return decorator
 
 
-def authorize_static(app: Flask) -> Function:
+def authorize_static(app):
     """Decorator for flask routes to authorize content
 
     Permissions are based on settings in the parent
     site access-control.json
     """
 
-    def decorator(route_function: Function) -> Function:
+    def decorator(route_function):
         @wraps(route_function)
-        def decorated_function(*args: Any, **kwargs: Any) -> Any:
+        def decorated_function(*args, **kwargs):
             path = request.path
             app.logger.debug(f"URL: {path}")
             passthru = False
@@ -322,7 +317,7 @@ def authorize_static(app: Flask) -> Function:
     return decorator
 
 
-def insert_login_component(content: str, auth_mode: str) -> str:
+def insert_login_component(content, auth_mode):
     """
     Show login status
 
@@ -334,9 +329,7 @@ def insert_login_component(content: str, auth_mode: str) -> str:
     return content
 
 
-def insert_denied_component(
-    content: str, authorised_path: str, access_message: str, auth_mode: str
-) -> str:
+def insert_denied_component(content, authorised_path, access_message, auth_mode):
     """
     Render access denied page
 
@@ -362,7 +355,7 @@ def insert_denied_component(
     return content
 
 
-def insert_not_found_component(content: str) -> str:
+def insert_not_found_component(content):
     """
     Render file not found page
 
@@ -381,7 +374,7 @@ def insert_not_found_component(content: str) -> str:
     return content
 
 
-def get_static_file_content(path: str) -> Union[str, bytes]:
+def get_static_file_content(path):
     """
     Get the file content from a path in the static site
 
@@ -398,7 +391,7 @@ def get_static_file_content(path: str) -> Union[str, bytes]:
     return content
 
 
-def make_default_response(path: str) -> FlaskResponse:
+def make_default_response(path):
     """
     This replaces calls to send_from_directory
 

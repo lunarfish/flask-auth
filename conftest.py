@@ -1,5 +1,4 @@
 import os
-from typing import Any, Dict
 
 import pytest
 
@@ -17,13 +16,13 @@ def get_test_client(app):
 
 
 @pytest.fixture()
-def kid() -> str:
+def kid():
     "The Key ID we expect for the above public key"
     return "307a30c3-8280-4ff5-a78d-6bc5263ffbe8"
 
 
 @pytest.fixture()
-def request_home() -> Dict[str, Any]:
+def request_home():
     group = "target_group_x/123456"
     account = "123456789012"
     service = "elasticloadbalancing"
@@ -55,7 +54,7 @@ def get_oidc_root():
 
 
 @pytest.fixture()
-def test_ssm_parameters() -> Dict[str, Any]:
+def test_ssm_parameters():
     return {
         "/flask/secret_key": "flask-secret",
         "/oidc/endpoint": get_oidc_root(),
@@ -65,7 +64,7 @@ def test_ssm_parameters() -> Dict[str, Any]:
 
 
 @pytest.fixture()
-def static_home() -> str:
+def static_home():
     module_path = os.path.dirname(os.path.abspath(__file__))
     with open(f"{module_path}/tests/static/index.html", "r") as page_file:
         page_content = page_file.read()

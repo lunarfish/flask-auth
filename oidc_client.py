@@ -1,9 +1,8 @@
-from typing import Any, Dict, Optional, Union
 from urllib.parse import urlencode
 
 from flask import Response, redirect, request, session
 from flask.wrappers import Response as FlaskWrapperResponse
-from jsonlogger import LOG  # type: ignore
+from jsonlogger import LOG
 from oic import rndstr
 from oic.exception import AccessDenied
 from oic.oauth2.message import Message
@@ -12,22 +11,20 @@ from oic.oic.message import AccessTokenResponse, AuthorizationResponse
 from oic.utils.authn.client import ClientSecretBasic, ClientSecretPost
 from werkzeug.wrappers import Response as WerkzeugResponse
 
-FlaskResponse = Union[Response, WerkzeugResponse, FlaskWrapperResponse]
-
-CONFIG: Dict[str, Any] = {}
+CONFIG = {}
 
 
-def get_host() -> str:
+def get_host():
     host = request.host_url
     return host
 
 
 def set_oidc_config(
-    endpoint: Union[str, None],
-    client_id: Union[str, None],
-    client_secret: Union[str, None],
-    scope: str = "openid profile email roles",
-) -> None:
+    endpoint,
+    client_id,
+    client_secret,
+    scope="openid profile email roles",
+):
     LOG.debug(f"Set oidc config for: {endpoint}")
     CONFIG["endpoint"] = endpoint
     CONFIG["client_id"] = client_id
@@ -35,7 +32,7 @@ def set_oidc_config(
     CONFIG["scope"] = scope
 
 
-def get_client() -> Any:
+def get_client():
     """
     Create a client instance once and store in CONFIG for re-use
 
@@ -64,7 +61,7 @@ def get_client() -> Any:
     return CONFIG["client"]
 
 
-def get_session_state(renew: bool = False) -> Any:
+def get_session_state(renew=False):
     """
     Create a random string and store in flask session
 
@@ -79,7 +76,7 @@ def get_session_state(renew: bool = False) -> Any:
     return session["state"]
 
 
-def get_authorization_url(redirect_to: str) -> Optional[str]:
+def get_authorization_url(redirect_to):
     """
     Get login url
     """
@@ -106,7 +103,7 @@ def get_authorization_url(redirect_to: str) -> Optional[str]:
     return url
 
 
-def get_access_token(auth_response: Message, redirect_to: str) -> Any:
+def get_access_token(auth_response, redirect_to):
     """
     Get an access token
 
@@ -140,7 +137,7 @@ def get_access_token(auth_response: Message, redirect_to: str) -> Any:
     return token_response
 
 
-def get_user_roles(token: AccessTokenResponse) -> Any:
+def get_user_roles(token):
     """
     Get roles list from user_info
 
@@ -155,7 +152,7 @@ def get_user_roles(token: AccessTokenResponse) -> Any:
     return roles
 
 
-def get_userinfo(auth_response: Message, redirect_to: str) -> Any:
+def get_userinfo(auth_response, redirect_to):
     """
     Make userinfo request
     """
@@ -179,7 +176,7 @@ def get_userinfo(auth_response: Message, redirect_to: str) -> Any:
     return user_info_dict
 
 
-def get_authorization_response() -> Any:
+def get_authorization_response():
     """
     Parse authorization response
 
@@ -192,7 +189,7 @@ def get_authorization_response() -> Any:
     return authorization_response
 
 
-def get_logout_redirect(redirect_to: str) -> FlaskResponse:
+def get_logout_redirect(redirect_to):
     headers = {}
     headers["Content-Type"] = "application/json"
     # I don't think we need an auth header since we're actually

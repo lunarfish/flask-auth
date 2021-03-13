@@ -28,14 +28,12 @@ setuptools.setup(
         "pyjwt",
         "requests",
         "serverless_wsgi",
-        "jsonlogger @ git+https://github.com/lunarfish/json-logger.git#egg=jsonlogger",
+        "jsonlogger @ git+https://github.com/lunarfish/json-logger.git",
     ],
     extras_require={
         "dev": [
             "pytest",
             "isort",
-            "black",
-            "pytest-black",
             "pytest-env",
             "pytest-flake8",
             "pytest-isort",
