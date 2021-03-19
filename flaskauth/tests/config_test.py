@@ -1,16 +1,15 @@
 import os
-from typing import Any, Dict
 from unittest.mock import mock_open, patch
 
 import pytest
 
-from .config import load_ssm_parameters
-from .static_site_wrapper_app import app
-from .tests import stubs
+from config import load_ssm_parameters
+from static_site_wrapper_app import app
+import stubs
 
 
 @pytest.mark.usefixtures("test_ssm_parameters")
-def test_load_ssm_parameters(test_ssm_parameters: Dict[str, str]) -> None:
+def test_load_ssm_parameters(test_ssm_parameters):
     """
     Run a request through the lambda_handler and save the response for
     later testing.

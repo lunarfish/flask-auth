@@ -6,8 +6,8 @@ import pytest
 import requests_mock
 from jsonlogger import LOG
 
-from .conftest import get_oidc_root
-from .oidc_client import (
+from conftest import get_oidc_root
+from oidc_client import (
     CONFIG,
     get_client,
     get_host,
@@ -16,8 +16,8 @@ from .oidc_client import (
     get_authorization_url,
     set_oidc_config,
 )
-from .static_site_wrapper_app import bootstrap
-from .tests import stubs
+from static_site_wrapper_app import bootstrap
+import stubs
 
 
 @pytest.mark.usefixtures("test_ssm_parameters")

@@ -18,7 +18,7 @@ from flask.wrappers import Response as FlaskWrapperResponse
 from jsonlogger import LOG
 from werkzeug.wrappers import Response as WerkzeugResponse
 
-from .alb import alb_get_user_info
+from alb import alb_get_user_info
 
 STATIC_SITE_ROOT = None
 ACCESS_CONTROLS = None
