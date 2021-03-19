@@ -381,7 +381,7 @@ def get_static_file_content(path):
     This function dynamically handles the situation that some static
     files are text (html/css/js) and some are binary assets (png,woff)
     """
-    LOG.debug(f"Invoke get_static_site_content for path: {path}")
+    LOG.debug(f"Invoke get_static_site_content for path: {STATIC_SITE_ROOT}{path}")
     try:
         with open(f"{STATIC_SITE_ROOT}{path}", "r") as content_file:
             content = content_file.read()
