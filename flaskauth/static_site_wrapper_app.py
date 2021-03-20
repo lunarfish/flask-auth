@@ -39,6 +39,7 @@ def bootstrap():
             endpoint=app.config.get("oidc_endpoint"),
             client_id=app.config.get("oidc_client_id"),
             client_secret=app.config.get("oidc_client_secret"),
+            scope=app.config.get("oidic_scopes")
         )
     return app
 

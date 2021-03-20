@@ -45,15 +45,13 @@ def load_ssm_parameters(app):
         else:
             LOG.debug("No SSM prefix - try loading creds from env")
             try:
-                credentials = os.environ["CLIENT_SECRETS_FILE"]
-                with open(credentials, "r") as cred_file:
-                    loaded_creds = json.load(cred_file)
-                    CONFIG["oidc_client_id"] = loaded_creds["web"]["client_id"]
-                    CONFIG["oidc_client_secret"] = loaded_creds["web"]["client_secret"]
-                    CONFIG["oidc_endpoint"] = os.environ["AUTH_URI"]
+                CONFIG["oidc_client_id"] = os.environ["OIDC_CLIENT_ID"]
+                CONFIG["oidc_client_secret"] = os.environ["OIDC_CLIENT_SECRET"]
+                CONFIG["oidc_endpoint"] = os.environ["OIDC_ENDPOINT"]
+                CONFIG["oidc_scopes"] = os.environ["OIDC_SCOPES"]
 
                 app.secret_key = os.environ.get("FLASK_SECRET", str(uuid4()))
-            except (KeyError, FileNotFoundError, json.JSONDecodeError) as error:
+            except (KeyError) as error:
                 LOG.debug("No credentials")
         LOG.debug("Config module settings")
         LOG.debug(CONFIG.keys())
