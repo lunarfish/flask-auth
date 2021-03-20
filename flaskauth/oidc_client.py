@@ -72,7 +72,7 @@ def get_session_state(renew=False):
     declare a return type so I can't set it
     """
     if "state" not in session or renew:
-        session["state"] = rndstr(size=64)  # type: ignore
+        session["state"] = rndstr(size=64)
     return session["state"]
 
 
@@ -81,9 +81,9 @@ def get_authorization_url(redirect_to):
     Get login url
     """
     LOG.debug("Get OIDC authorization URL")
-    nonce = rndstr()  # type: ignore
+    nonce = rndstr()
     client = get_client()
-
+    LOG.debug("Scopes: " + CONFIG["scope"])
     url = None
     if client:
         args = {
