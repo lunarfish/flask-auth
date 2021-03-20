@@ -50,7 +50,7 @@ def load_ssm_parameters(app):
                     loaded_creds = json.load(cred_file)
                     CONFIG["oidc_client_id"] = loaded_creds["web"]["client_id"]
                     CONFIG["oidc_client_secret"] = loaded_creds["web"]["client_secret"]
-                    CONFIG["oidc_endpoint"] = loaded_creds["web"]["auth_uri"]
+                    CONFIG["oidc_endpoint"] = os.environ["AUTH_URI"]
 
                 app.secret_key = os.environ.get("FLASK_SECRET", str(uuid4()))
             except (KeyError, FileNotFoundError, json.JSONDecodeError) as error:
