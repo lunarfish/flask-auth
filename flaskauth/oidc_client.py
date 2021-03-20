@@ -29,7 +29,7 @@ def set_oidc_config(
     CONFIG["endpoint"] = endpoint
     CONFIG["client_id"] = client_id
     CONFIG["client_secret"] = client_secret
-    CONFIG["scope"] = scope
+    CONFIG["scope"] = os.environ.get("OIDC_SCOPES") or scope
 
 
 def get_client():
