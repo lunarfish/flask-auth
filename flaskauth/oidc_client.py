@@ -23,7 +23,7 @@ def set_oidc_config(
     endpoint,
     client_id,
     client_secret,
-    scope="openid profile email roles",
+    scope="openid profile email",
 ):
     LOG.debug(f"Set oidc config for: {endpoint}")
     CONFIG["endpoint"] = endpoint
