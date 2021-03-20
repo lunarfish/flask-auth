@@ -48,7 +48,7 @@ def load_ssm_parameters(app):
                 CONFIG["oidc_client_id"] = os.environ["OIDC_CLIENT_ID"]
                 CONFIG["oidc_client_secret"] = os.environ["OIDC_CLIENT_SECRET"]
                 CONFIG["oidc_endpoint"] = os.environ["OIDC_ENDPOINT"]
-                CONFIG["oidc_scopes"] = os.environ["OIDC_SCOPES"]
+                CONFIG["scope"] = os.environ["OIDC_SCOPES"]
 
                 app.secret_key = os.environ.get("FLASK_SECRET", str(uuid4()))
             except (KeyError) as error:
