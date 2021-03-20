@@ -1,6 +1,6 @@
 import serverless_wsgi
 
-from static_site_wrapper_app import bootstrap
+from .static_site_wrapper_app import bootstrap
 
 
 def lambda_handler(event, context):

@@ -3,9 +3,9 @@ import os
 import pytest
 import requests_mock
 
-import stubs
-from static_site_wrapper_app import bootstrap
-from auth import make_default_response
+from . import stubs
+from ..static_site_wrapper_app import bootstrap
+from ..auth import make_default_response
 
 
 @pytest.mark.usefixtures("test_ssm_parameters")

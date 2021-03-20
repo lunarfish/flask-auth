@@ -6,10 +6,10 @@ import pytest
 from flask.testing import FlaskClient
 from jsonlogger import LOG
 
-from auth import set_access_controls
-from conftest import get_test_client
-from static_site_wrapper_app import bootstrap  # noqa
-from tests import stubs
+from ..auth import set_access_controls
+from ..conftest import get_test_client
+from ..static_site_wrapper_app import bootstrap  # noqa
+from . import stubs
 
 
 @pytest.mark.usefixtures("test_session", "test_ssm_parameters", "access_controls")

@@ -5,14 +5,14 @@ from flask.wrappers import Response as FlaskWrapperResponse
 from jsonlogger import LOG
 from werkzeug.wrappers import Response as WerkzeugResponse
 
-from auth import (
+from .auth import (
     add_credentials_to_session,
     authorize_static,
     make_default_response,
     set_static_site_root,
 )
-from config import load_ssm_parameters
-from oidc_client import (
+from .config import load_ssm_parameters
+from .oidc_client import (
     get_authorization_response,
     get_authorization_url,
     get_logout_redirect,

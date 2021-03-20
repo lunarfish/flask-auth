@@ -3,9 +3,9 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from config import load_ssm_parameters
-from static_site_wrapper_app import app
-import stubs
+from ..config import load_ssm_parameters
+from ..static_site_wrapper_app import app
+from . import stubs
 
 
 @pytest.mark.usefixtures("test_ssm_parameters")

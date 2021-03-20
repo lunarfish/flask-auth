@@ -3,8 +3,8 @@ from unittest.mock import mock_open, patch
 
 import pytest
 
-from lambda_handler import lambda_handler
-from tests import stubs
+from ..lambda_handler import lambda_handler
+from . import stubs
 
 
 @pytest.mark.usefixtures("request_home", "test_ssm_parameters")
