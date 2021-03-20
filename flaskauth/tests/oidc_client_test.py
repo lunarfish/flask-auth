@@ -125,7 +125,7 @@ def test_get_authorization_url(openid_config, test_ssm_parameters):
         with app.test_request_context("/"):
             redirect = "https://localhost/"
             encoded_redirect = urllib.parse.quote_plus(redirect)
-            scope = urllib.parse.quote_plus(CONFIG["scope"])
+            scope = CONFIG["scope"]
             state = get_session_state()
             auth_url = get_authorization_url(redirect)
             assert auth_url.startswith(
