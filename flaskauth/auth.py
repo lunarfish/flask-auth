@@ -2,7 +2,6 @@ import json
 import os
 import re
 from functools import wraps
-from typing import Any, Callable, Dict, List, Optional, Union
 
 from flask import (
     Flask,
@@ -116,7 +115,6 @@ def get_access_controls():
             ACCESS_CONTROLS = DEFAULT_ACCESS
         LOG.debug(ACCESS_CONTROLS)
 
-    assert isinstance(ACCESS_CONTROLS, Dict)
     return ACCESS_CONTROLS
 
 

@@ -1,3 +1,4 @@
+import json
 import os
 from urllib.parse import urlencode
 
@@ -24,9 +25,10 @@ def set_oidc_config(
     endpoint,
     client_id,
     client_secret,
-    scope="openid profile email",
+    scope="openid profile email roles",
 ):
     LOG.debug(f"Set oidc config for: {endpoint}")
+    LOG.debug(f"Default scope: {scope}")
     CONFIG["endpoint"] = endpoint
     CONFIG["client_id"] = client_id
     CONFIG["client_secret"] = client_secret
@@ -58,6 +60,7 @@ def get_client():
         client.client_secret = CONFIG["client_secret"]
 
         CONFIG["client"] = client
+        LOG.debug("Created client")
 
     return CONFIG["client"]
 
@@ -84,9 +87,11 @@ def get_authorization_url(redirect_to):
     LOG.debug("Get OIDC authorization URL")
     nonce = rndstr()
     client = get_client()
-    LOG.debug("Scopes: " + CONFIG["scope"])
     url = None
+    LOG.debug(json.dumps(list(CONFIG.keys())))
     if client:
+        LOG.debug("Scopes:")
+        LOG.debug(CONFIG.get("scope", "unset"))
         args = {
             "client_id": client.client_id,
             "response_type": "code",
@@ -118,7 +123,7 @@ def get_access_token(auth_response, redirect_to):
     else:
         client = get_client()
         LOG.debug(f"Auth response code: {auth_response['code']}")
-        LOG.debug(f"Auth response session_state: {auth_response['session_state']}")
+        LOG.debug(f"Auth response session_state: {auth_response['state']}")
         args = {
             "code": auth_response["code"],
             "client_id": client.client_id,
